@@ -1,1 +1,38 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
 
+.barry-section {
+  width: 100%;
+  height: 500px;
+  background: lightGray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.barry-section--chart {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  width: 90%;
+  height: 80%;
+  margin: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.barry-section--ticks-container {
+  width: 91%;
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: -15px;
+}
+
+.ticks-container--tics-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
