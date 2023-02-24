@@ -3,6 +3,11 @@ body {
   box-sizing: border-box;
 }
 
+h3,
+h6 {
+  margin: 0;
+}
+
 .barry-section {
   width: 100%;
   height: 500px;
@@ -20,10 +25,11 @@ body {
   height: 80%;
   margin: 1rem;
   margin-bottom: 0.3rem;
+  padding-bottom: 0.2rem;
 }
 
 .barry-section--ticks-container {
-  width: 91%;
+  width: calc(90% + 3px);
   height: 10%;
   display: flex;
   justify-content: space-between;
@@ -35,4 +41,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.ticks-container--tics-div:first-of-type {
+  align-items: flex-start;
+}
+
+.ticks-container--tics-div:last-of-type {
+  align-items: flex-end;
+}
+
+.chart-bar {
+  /* padding: 5px; */
+  border: 1px solid black;
+  border-bottom: 0;
+  border-top-right-radius: 5px;
+}
+
+.chart-bar h3,
+h6 {
+  position: relative;
+  top: 5px;
+  left: 5px;
 }

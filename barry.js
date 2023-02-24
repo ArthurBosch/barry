@@ -1,6 +1,6 @@
 class Barry {
   constructor(data, options, element) {
-    this.data = data.sort((a, b) => a - b) || [];
+    this.data = data.sort((a, b) => a.value - b.value) || [];
     this.options = options || {
       barColor: "Black",
       labelColor: "White",
@@ -17,53 +17,95 @@ class Barry {
     //create a section
     const section = document.createElement("section");
     this.element.appendChild(section);
+    this.section = section;
     section.className = "barry-section";
+
+    //create title
+    const title = document.createElement("h1");
+    title.innerText = this.options.title.title;
+    title.style.fontSize = this.options.title.fontSize;
+    title.style.fontColor = this.options.title.fontColor;
+    section.appendChild(title);
 
     //create a chart container inside section
     const chart = document.createElement("div");
     section.appendChild(chart);
+    this.chart = chart;
     chart.className = "barry-section--chart";
 
     //create bars
     let i = 0;
+    this.bars = [];
     while (i < this.data.length) {
-      // createBars()
+      console.log(this.data[i].value);
+      const bar = new Bar(
+        this.data[i].title,
+        this.data[i].value,
+        this.data,
+        this.options.barColor
+      );
+      bar.appendToChart(chart);
+      this.bars.push(bar);
       i++;
     }
 
     //create ticks
     new Tics(this.data, section).drawTicks();
   }
-  setData(array) {
-    this.data = array.sort((a, b) => a - b);
+  deleteBarry() {
+    this.section.remove();
   }
+  updateBarry() {
+    this.deleteBarry();
+    this.createBarry();
+  }
+  setData(array) {
+    this.data = array.sort((a, b) => a.value - b.value);
+  }
+  createBars(chart) {}
   setBarColor(string) {
     this.options.barColor = string;
+    this.updateBarry();
   }
   setLabelColor(string) {
     this.options.labelColor = string;
+    this.updateBarry();
   }
   setBarSpacing(pxString) {
     this.options.barSpacing = pxString;
+    this.updateBarry();
   }
   setTitleFontSize(pxString) {
     this.options.title.fontSize = pxString;
+    this.updateBarry();
   }
   setFontColor(string) {
     this.options.fontColor = string;
+    this.updateBarry();
   }
 }
 
 class Bar {
-  constructor(title, value, color) {
+  constructor(title, value, data, color) {
     this.title = title || "untitled";
     this.value = value || 0;
     this.color = color || "black";
+    this.data = data;
   }
 
   createNode() {
     const div = document.createElement("div");
-    div.style.width = `${value}%`;
+    div.className = "chart-bar";
+    const title = document.createElement("h3");
+    title.innerText = this.title;
+    div.appendChild(title);
+    const valueText = document.createElement("h6");
+    valueText.innerText = this.value;
+    div.appendChild(valueText);
+    div.style.width = `${
+      (this.value / this.data[this.data.length - 1].value) * 100
+    }%`;
+    div.style.height = `${100 / this.data.length}%`;
     div.style.background = this.color;
     return div;
   }
@@ -82,7 +124,7 @@ class Bar {
 
 class Tics {
   constructor(data, parent) {
-    this.endPoint = data[data.length - 1];
+    this.endPoint = data[data.length - 1].value;
     this.middlePoint = this.endPoint / 2;
     this.firstQuater = this.middlePoint / 2;
     this.thirdQuater = (this.middlePoint + this.endPoint) / 2;
